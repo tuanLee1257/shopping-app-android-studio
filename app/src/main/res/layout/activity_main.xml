@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
      <FrameLayout
-         android:padding="20dp"
+         android:paddingHorizontal="12dp"
          android:id="@+id/frame_container"
          android:layout_above="@+id/bottomNavView"
          android:layout_width="match_parent"

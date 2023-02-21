@@ -11,15 +11,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.models.ShopItem;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class ShopItemsAdapter extends BaseAdapter {
+
     private ArrayList<ShopItem> shopItems;
     private Context context;
     private LayoutInflater layoutInflater;
@@ -63,8 +62,7 @@ public class ShopItemsAdapter extends BaseAdapter {
         //gan du lieu
         itemName.setText(shopItem.getName());
         itemPrice.setText(String.valueOf(shopItem.getPrice()));
-        Bitmap image = UrlToImage(shopItem.getUrl());
-        itemImage.setImageBitmap(image);
+        Glide.with(this.context).load(shopItem.getUrl()).into(itemImage);
         return shopItemView;
     }
 
