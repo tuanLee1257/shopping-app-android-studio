@@ -1,5 +1,6 @@
 package com.example.shoppingapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,10 +10,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.example.shoppingapp.Activities.ItemDetailsActivity;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.ShopItemsAdapter;
+import com.example.shoppingapp.interfaces.Onclick;
 import com.example.shoppingapp.models.ShopItem;
 
 import java.util.ArrayList;
@@ -26,9 +31,16 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initDumpData();
-        shopItemsAdapter = new ShopItemsAdapter(shopItems,this.getContext());
+        shopItemsAdapter = new ShopItemsAdapter(shopItems, this.getContext(), new Onclick() {
+            @Override
+            public void onItemClicked(ShopItem shopItem) {
+                Intent intent = new Intent(getContext(),ItemDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
         shopItemListView = (GridView) getActivity().findViewById(R.id.shoppingItemGridView);
         shopItemListView.setAdapter(shopItemsAdapter);
+        shopItemListView.setOnItemClickListener((parent, view1, position, id) -> Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show());
 
     }
     void initDumpData(){

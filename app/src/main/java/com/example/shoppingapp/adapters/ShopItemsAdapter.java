@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
+import com.example.shoppingapp.interfaces.Onclick;
 import com.example.shoppingapp.models.ShopItem;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,11 +23,12 @@ public class ShopItemsAdapter extends BaseAdapter {
     private ArrayList<ShopItem> shopItems;
     private Context context;
     private LayoutInflater layoutInflater;
+    private Onclick onclick;
 
-    public ShopItemsAdapter(ArrayList<ShopItem> shopItems, Context context) {
+    public ShopItemsAdapter(ArrayList<ShopItem> shopItems, Context context ,Onclick listenner) {
         this.shopItems = shopItems;
         this.context = context;
-        this.layoutInflater = layoutInflater;
+        this.onclick  = listenner;
     }
 
     @Override
@@ -48,7 +50,6 @@ public class ShopItemsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View shopItemView;
         if (convertView == null){
-
             shopItemView = View.inflate(parent.getContext(), R.layout.shopping_item,null);
         }
         else shopItemView = convertView;
@@ -63,6 +64,15 @@ public class ShopItemsAdapter extends BaseAdapter {
         itemName.setText(shopItem.getName());
         itemPrice.setText(String.valueOf(shopItem.getPrice()));
         Glide.with(this.context).load(shopItem.getUrl()).into(itemImage);
+
+        //bat su kien onClick
+        shopItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onclick.onItemClicked(shopItem);
+            }
+        });
+
         return shopItemView;
     }
 
