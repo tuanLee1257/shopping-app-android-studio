@@ -5,10 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.models.ShopItem;
+import com.example.shoppingapp.states.CartState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -23,8 +25,15 @@ public class CartItemsAdapter extends BaseAdapter {
         this.shopItems = shopItems;
     }
 
+    public void refresh(List<ShopItem> shopItems){
+        this.shopItems = shopItems;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
+        if (shopItems == null) {
+            return 0;
+        }
         return shopItems.size();
     }
 
@@ -59,6 +68,13 @@ public class CartItemsAdapter extends BaseAdapter {
         cartItemName.setText(shopItem.getName());
         cartItemSize.setText("L");
         cartItemPrice.setText(String.valueOf(shopItem.getPrice()));
+
+        cartDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return cartItemsView;
