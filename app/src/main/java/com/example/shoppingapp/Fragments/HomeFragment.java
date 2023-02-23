@@ -21,6 +21,7 @@ import com.example.shoppingapp.interfaces.Onclick;
 import com.example.shoppingapp.models.ShopItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     ArrayList<ShopItem> shopItems = new ArrayList<>();
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClicked(ShopItem shopItem) {
                 Intent intent = new Intent(getContext(),ItemDetailsActivity.class);
+                intent.putExtra("ShopItem",shopItem);
                 startActivity(intent);
             }
         });
@@ -54,6 +56,9 @@ public class HomeFragment extends Fragment {
         shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt",1.1100,"https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320",4.5,"Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
 
     }
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -23,13 +23,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="370dp" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/favoriteBtn_itemDetail"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:foregroundTint="@color/yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_margin="40dp"
-                android:background="@drawable/favorite_fill0_wght400_grad0_opsz24" />
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/favorite_fill0_wght400_grad0_opsz24" />
         </RelativeLayout>
 
         <TextView
@@ -39,6 +44,13 @@
             android:text="Item name"
             android:textColor="@color/black"
             android:textSize="24sp" />
+        <TextView
+            android:text="4.5/5"
+            android:gravity="center"
+            android:drawableLeft="@drawable/star"
+            android:drawableTint="@color/yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/itemDetail_itemDetail"
             android:layout_width="wrap_content"
@@ -51,8 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="24dp"
-        >
+       android:paddingVertical="10dp"
+        android:paddingHorizontal="7dp">
 
         <TextView
             android:id="@+id/textView"
@@ -74,8 +86,8 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
-            android:layout_width="207dp"
-            android:layout_height="79dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
             android:drawableLeft="@drawable/cart"
             android:drawableTint="@color/white"

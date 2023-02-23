@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.CartFragment">
+    tools:context=".Activities.CartActivity">
 
     <ListView
         android:id="@+id/cartItemListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/CartTotalInfo"
-        android:scrollbarAlwaysDrawVerticalTrack="false"
-        android:scrollbars="none"
-        android:layout_marginBottom="-150dp" />
-
-    <LinearLayout
-        android:id="@+id/CartTotalInfo"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,10 +25,10 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/SubTotalPrice_cart"
-            android:text="Price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:text="Price"
             android:textColor="@color/black"
             android:textSize="24sp" />
     </LinearLayout>
@@ -51,15 +39,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="VAT (%)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_weight="1"
+            android:text="VAT (%)"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/vat_cart"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -76,15 +63,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_weight="1"
             android:text="Shipping fee"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/shippingFee_cart"
-            android:text="fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:text="fee"
             android:textColor="@color/black"
             android:textSize="24sp" />
     </LinearLayout>
@@ -108,13 +96,11 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/totalPrice_cart"
-            android:text="Price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Price"
             android:textColor="@color/black"
             android:textSize="24sp" />
     </LinearLayout>
-    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

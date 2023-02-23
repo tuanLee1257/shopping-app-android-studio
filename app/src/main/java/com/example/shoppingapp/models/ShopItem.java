@@ -1,6 +1,8 @@
 package com.example.shoppingapp.models;
 
-public class ShopItem {
+import java.io.Serializable;
+
+public class ShopItem implements Serializable {
     private String name;
     private double price;
     private String url;

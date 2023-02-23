@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/cartItemImage"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        app:layout_constraintBaseline_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+         />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@+id/cartItemImage"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cartItemName"
+            android:text="Cart item name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cartItemSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cart item size"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/cartItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cart item price"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cartItemImage" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteBtn_cart"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@android:color/transparent"
+        android:foreground="@drawable/delete"
+        android:foregroundTint="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/removeBtn_cart"
+            android:foreground="@drawable/remove"
+            android:background="@android:color/transparent"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+        <com.google.android.material.textview.MaterialTextView
+            android:text="1"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addBtn_cart"
+            android:foreground="@drawable/add"
+            android:background="@android:color/transparent"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
