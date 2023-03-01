@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
+import com.example.shoppingapp.interfaces.CartItemInterface;
 import com.example.shoppingapp.models.ShopItem;
 import com.example.shoppingapp.states.CartState;
 import com.google.android.material.button.MaterialButton;
@@ -19,10 +20,12 @@ import java.util.List;
 public class CartItemsAdapter extends BaseAdapter {
     private Context context;
     private List<ShopItem> shopItems;
+    private CartItemInterface listenner;
 
-    public CartItemsAdapter(Context context, List<ShopItem> shopItems) {
+    public CartItemsAdapter(Context context, List<ShopItem> shopItems,CartItemInterface listenner) {
         this.context = context;
         this.shopItems = shopItems;
+        this.listenner = listenner;
     }
 
     public void refresh(List<ShopItem> shopItems){
@@ -64,19 +67,17 @@ public class CartItemsAdapter extends BaseAdapter {
         MaterialButton cartDeleteBtn = cartItemsView.findViewById(R.id.deleteBtn_cart);
 
         //gan du lieu
-        Glide.with(this.context).load(shopItem.getUrl()).into(cartItemImage);
-        cartItemName.setText(shopItem.getName());
+        Glide.with(this.context).load(shopItem.getImgUrl()).into(cartItemImage);
+        cartItemName.setText(shopItem.getItemName());
         cartItemSize.setText("L");
         cartItemPrice.setText(String.valueOf(shopItem.getPrice()));
 
         cartDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, position, Toast.LENGTH_SHORT).show();
+                listenner.onDelete(position);
             }
         });
-
-
         return cartItemsView;
     }
 

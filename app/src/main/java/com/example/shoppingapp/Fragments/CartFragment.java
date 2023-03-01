@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.CartItemsAdapter;
+import com.example.shoppingapp.interfaces.CartItemInterface;
 import com.example.shoppingapp.models.ShopItem;
 import com.example.shoppingapp.states.CartState;
 import com.google.android.material.textview.MaterialTextView;
@@ -26,6 +27,8 @@ public class CartFragment extends Fragment {
     private List<ShopItem> shopItems = new ArrayList<>();
     private CartItemsAdapter cartItemsAdapter;
     private CartState state;
+    double subTotalPrice = 0, vatPrice = 0, feePrice = 0, totalPrice = 0;
+
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -33,9 +36,9 @@ public class CartFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 //        initDumpData();
-
         state = (CartState) getActivity().getApplicationContext();
         shopItems = state.getShopItems();
+
 
         //anh xa
         ListView cartItemListView = view.findViewById(R.id.cartItemListView);
@@ -45,38 +48,43 @@ public class CartFragment extends Fragment {
         MaterialTextView total = view.findViewById(R.id.totalPrice_cart);
 
         //adapter
-        cartItemsAdapter = new CartItemsAdapter(getContext(), shopItems);
+        cartItemsAdapter = new CartItemsAdapter(getContext(), shopItems, new CartItemInterface() {
+            @Override
+            public void onDelete(int position) {
+                state.remove(position);
+                subTotalPrice = price(shopItems);
+                vatPrice = (subTotalPrice * 0.2);
+                feePrice = 2.2;
+                totalPrice = subTotalPrice + vatPrice + feePrice;
+
+                subTotal.setText(String.format("%.2f", subTotalPrice));
+                vat.setText(String.format("%.2f", vatPrice));
+                fee.setText(String.valueOf(feePrice));
+                total.setText(String.format("%.2f", totalPrice));
+                cartItemsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void remove() {
+
+            }
+        });
         cartItemListView.setAdapter(cartItemsAdapter);
+
 
         if (shopItems != null) {
             //gan du lieu
-            double subTotalPrice = price(shopItems);
-            subTotal.setText(String.format("%.2f", subTotalPrice));
-
-            double vatPrice = (subTotalPrice * 0.2);
-            vat.setText(String.format("%.2f", vatPrice));
-
-            double feePrice = 2.2;
-            fee.setText(String.valueOf(feePrice));
-
-            double totalPrice = subTotalPrice + vatPrice + feePrice;
-            total.setText(String.format("%.2f", totalPrice));
+            subTotalPrice = price(shopItems);
+            vatPrice = (subTotalPrice * 0.2);
+            feePrice = 2.2;
+            totalPrice = subTotalPrice + vatPrice + feePrice;
         }
-
-
+        subTotal.setText(String.format("%.2f", subTotalPrice));
+        vat.setText(String.format("%.2f", vatPrice));
+        fee.setText(String.valueOf(feePrice));
+        total.setText(String.format("%.2f", totalPrice));
     }
 
-    void initDumpData() {
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-        shopItems.add(new ShopItem("AIRism Short Sleeve Polo Shirt", 1.1100, "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320", 4.5, "Smooth AIRism with a fresh feel. A versatile polo for casual or refined styling"));
-
-    }
 
     double price(List<ShopItem> shopItems) {
         final double[] price = {0};
@@ -90,8 +98,7 @@ public class CartFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        shopItems.addAll(state.getShopItems());
-        cartItemsAdapter.refresh(shopItems);
+        cartItemsAdapter.notifyDataSetChanged();
     }
 
     @Override

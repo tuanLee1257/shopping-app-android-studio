@@ -40,8 +40,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
         Button addToCart = findViewById(R.id.addBtn_itemDetail);
 
         //
-        Glide.with(this.getBaseContext()).load(shopItem.getUrl()).into(itemImg);
-        itemName.setText(shopItem.getName());
+        Glide.with(this.getBaseContext()).load(shopItem.getImgUrl()).into(itemImg);
+        itemName.setText(shopItem.getItemName());
         itemDetail.setText(shopItem.getDescription());
         itemPrice.setText(String.valueOf(shopItem.getPrice()));
         addToCart.setOnClickListener(new View.OnClickListener() {

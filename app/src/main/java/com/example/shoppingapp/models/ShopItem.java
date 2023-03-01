@@ -1,52 +1,43 @@
 package com.example.shoppingapp.models;
 
+
 import java.io.Serializable;
 
 public class ShopItem implements Serializable {
-    private String name;
-    private double price;
-    private String url;
-    private double preview;
+
+    private Integer id;
+
+    private String itemName;
+
     private String description;
 
-    public ShopItem(String name, double price, String url, double preview, String description) {
-        this.name = name;
-        this.price = price;
-        this.url = url;
-        this.preview = preview;
+    private String imgUrl;
+
+    private Double price;
+
+    private Object likedBy;
+
+    public ShopItem(String itemName, String description, String imgUrl, Double price) {
+        this.itemName = itemName;
         this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
+        this.imgUrl = imgUrl;
         this.price = price;
     }
 
-    public String getUrl() {
-        return url;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public double getPreview() {
-        return preview;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setPreview(double preview) {
-        this.preview = preview;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getDescription() {
@@ -57,5 +48,41 @@ public class ShopItem implements Serializable {
         this.description = description;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Object getLikedBy() {
+        return likedBy;
+    }
+
+    public void setLikedBy(Object likedBy) {
+        this.likedBy = likedBy;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopItem{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", price=" + price +
+                ", likedBy=" + likedBy +
+                '}';
+    }
 }
+
+

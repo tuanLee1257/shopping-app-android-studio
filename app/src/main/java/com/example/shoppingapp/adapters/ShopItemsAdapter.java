@@ -61,9 +61,9 @@ public class ShopItemsAdapter extends BaseAdapter {
         ImageView itemImage = (ImageView) shopItemView.findViewById(R.id.itemImg);
 
         //gan du lieu
-        itemName.setText(shopItem.getName());
+        itemName.setText(shopItem.getItemName());
         itemPrice.setText(String.valueOf(shopItem.getPrice()));
-        Glide.with(this.context).load(shopItem.getUrl()).into(itemImage);
+        Glide.with(this.context).load(shopItem.getImgUrl()).into(itemImage);
 
         //bat su kien onClick
         shopItemView.setOnClickListener(new View.OnClickListener() {

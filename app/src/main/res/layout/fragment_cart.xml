@@ -5,12 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.CartFragment">
+    tools:context=".Fragments.CartFragment"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="6dp"
+    >
 
     <ListView
         android:id="@+id/cartItemListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/CartTotalInfo"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="none"
@@ -19,7 +23,7 @@
     <LinearLayout
         android:id="@+id/CartTotalInfo"
         android:background="@color/white"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/checkOutBtn_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -116,5 +120,19 @@
             android:textSize="24sp" />
     </LinearLayout>
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/checkOutBtn_cart"
+        android:text="Checkout"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/black"
+        android:paddingVertical="16dp"
+        app:icon="@drawable/arrow_forward"
+        app:iconGravity="textEnd"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

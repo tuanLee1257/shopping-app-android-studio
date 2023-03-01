@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="170dp"
     android:layout_height="wrap_content"
-    android:paddingLeft="10dp"
     android:layout_marginTop="10dp"
     android:orientation="vertical"
     >
@@ -16,18 +15,20 @@
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/saveIcon"
-            android:background="@drawable/favorite_fill0_wght400_grad0_opsz24"
-
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:src="@drawable/favorite_fill0_wght400_grad0_opsz24"
             android:layout_alignParentRight="true"
-            android:layout_margin="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/round_shape"
+            android:foregroundGravity="center"
+            app:backgroundTint="@color/white"
             />
     </RelativeLayout>
     <TextView
