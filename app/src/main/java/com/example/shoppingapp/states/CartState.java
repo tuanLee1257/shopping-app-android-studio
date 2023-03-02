@@ -2,27 +2,27 @@ package com.example.shoppingapp.states;
 
 import android.app.Application;
 
-import com.example.shoppingapp.models.ShopItem;
+import com.example.shoppingapp.models.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartState extends Application {
-    private List<ShopItem> shopItems = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
 
-    public List<ShopItem> getShopItems() {
-        return shopItems;
+    public List<Item> getShopItems() {
+        return items;
     }
 
-    public void setShopItems(List<ShopItem> shopItems) {
-        this.shopItems = shopItems;
+    public void setShopItems(List<Item> items) {
+        this.items = items;
     }
 
-    public void add(ShopItem shopItem){
-        this.shopItems.add(shopItem);
+    public void add(Item item){
+        this.items.add(item);
     }
 
     public void remove(int position){
-        this.shopItems.remove(position);
+        this.items.remove(position);
     }
 }

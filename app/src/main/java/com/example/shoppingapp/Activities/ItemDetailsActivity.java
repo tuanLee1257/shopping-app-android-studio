@@ -2,7 +2,6 @@ package com.example.shoppingapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,11 +11,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.models.ShopItem;
+import com.example.shoppingapp.models.Item;
 import com.example.shoppingapp.states.CartState;
 
 public class ItemDetailsActivity extends AppCompatActivity {
-    ShopItem shopItem;
+    Item item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
         CartState state = (CartState) getApplicationContext();
 
-        shopItem = (ShopItem) getIntent().getSerializableExtra("ShopItem");
+        item = (Item) getIntent().getSerializableExtra("ShopItem");
 //        shopItem = new ShopItem("AIRism Short Sleeve Polo Shirt",
 //                1.1100,
 //                "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/458186/item/vngoods_71_458186.jpg?width=320",
@@ -40,14 +39,14 @@ public class ItemDetailsActivity extends AppCompatActivity {
         Button addToCart = findViewById(R.id.addBtn_itemDetail);
 
         //
-        Glide.with(this.getBaseContext()).load(shopItem.getImgUrl()).into(itemImg);
-        itemName.setText(shopItem.getItemName());
-        itemDetail.setText(shopItem.getDescription());
-        itemPrice.setText(String.valueOf(shopItem.getPrice()));
+        Glide.with(this.getBaseContext()).load(item.getImgUrl()).into(itemImg);
+        itemName.setText(item.getItemName());
+        itemDetail.setText(item.getDescription());
+        itemPrice.setText(String.valueOf(item.getPrice()));
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                state.add(shopItem);
+                state.add(item);
             }
         });
 

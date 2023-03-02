@@ -20,19 +20,17 @@ import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.ShopItemsAdapter;
 import com.example.shoppingapp.interfaces.Onclick;
 import com.example.shoppingapp.models.ResponseObject;
-import com.example.shoppingapp.models.ShopItem;
+import com.example.shoppingapp.models.Item;
 import com.example.shoppingapp.services.ApiService;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-    ArrayList<ShopItem> shopItems = new ArrayList<>();
+    ArrayList<Item> items = new ArrayList<>();
     ShopItemsAdapter shopItemsAdapter;
     GridView shopItemListView;
     SearchView searchView;
@@ -42,11 +40,11 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.e("TAG", "onViewCreated: " );
 
-        shopItemsAdapter = new ShopItemsAdapter(shopItems, this.getContext(), new Onclick() {
+        shopItemsAdapter = new ShopItemsAdapter(items, this.getContext(), new Onclick() {
             @Override
-            public void onItemClicked(ShopItem shopItem) {
+            public void onItemClicked(Item item) {
                 Intent intent = new Intent(getContext(),ItemDetailsActivity.class);
-                intent.putExtra("ShopItem", shopItem);
+                intent.putExtra("ShopItem", item);
                 startActivity(intent);
             }
         });
@@ -68,9 +66,9 @@ public class HomeFragment extends Fragment {
                 ApiService.apiService.searchItems(newText).enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                        shopItems.clear();
+                        items.clear();
                         response.body().getData().forEach(shopItem -> {
-                            shopItems.add(shopItem);
+                            items.add(shopItem);
                         });
                         shopItemsAdapter.notifyDataSetChanged();
                     }
@@ -90,11 +88,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 response.body().getData().forEach(shopItem -> {
-                    shopItems.add(shopItem);
+                    items.add(shopItem);
                 });
                 if (response.body() != null) {
                     shopItemsAdapter.notifyDataSetChanged();
-                    Log.e("TAG", "onResponse: "+shopItems.toString() );
+                    Log.e("TAG", "onResponse: "+ items.toString() );
                 }
             }
 
@@ -110,6 +108,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        items.clear();
         initDumpData();
         Log.e("TAG", "onCreate: " );
     }

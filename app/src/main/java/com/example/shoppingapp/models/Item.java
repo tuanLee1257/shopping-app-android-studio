@@ -3,7 +3,7 @@ package com.example.shoppingapp.models;
 
 import java.io.Serializable;
 
-public class ShopItem implements Serializable {
+public class Item implements Serializable {
 
     private Integer id;
 
@@ -17,7 +17,7 @@ public class ShopItem implements Serializable {
 
     private Object likedBy;
 
-    public ShopItem(String itemName, String description, String imgUrl, Double price) {
+    public Item(String itemName, String description, String imgUrl, Double price) {
         this.itemName = itemName;
         this.description = description;
         this.imgUrl = imgUrl;
@@ -74,7 +74,7 @@ public class ShopItem implements Serializable {
 
     @Override
     public String toString() {
-        return "ShopItem{" +
+        return "Item{" +
                 "id=" + id +
                 ", itemName='" + itemName + '\'' +
                 ", description='" + description + '\'' +

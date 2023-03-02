@@ -14,31 +14,31 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.interfaces.Onclick;
-import com.example.shoppingapp.models.ShopItem;
+import com.example.shoppingapp.models.Item;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class ShopItemsAdapter extends BaseAdapter {
 
-    private ArrayList<ShopItem> shopItems;
+    private ArrayList<Item> items;
     private Context context;
     private LayoutInflater layoutInflater;
     private Onclick onclick;
 
-    public ShopItemsAdapter(ArrayList<ShopItem> shopItems, Context context ,Onclick listenner) {
-        this.shopItems = shopItems;
+    public ShopItemsAdapter(ArrayList<Item> items, Context context , Onclick listenner) {
+        this.items = items;
         this.context = context;
         this.onclick  = listenner;
     }
 
     @Override
     public int getCount() {
-        return shopItems.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return shopItems.get(position);
+        return items.get(position);
     }
 
     @Override
@@ -54,22 +54,22 @@ public class ShopItemsAdapter extends BaseAdapter {
         }
         else shopItemView = convertView;
 
-        ShopItem shopItem = this.shopItems.get(position);
+        Item item = this.items.get(position);
         //anh xa
         TextView itemName = (TextView) shopItemView.findViewById(R.id.itemName);
         TextView itemPrice = (TextView) shopItemView.findViewById(R.id.itemPrice);
         ImageView itemImage = (ImageView) shopItemView.findViewById(R.id.itemImg);
 
         //gan du lieu
-        itemName.setText(shopItem.getItemName());
-        itemPrice.setText(String.valueOf(shopItem.getPrice()));
-        Glide.with(this.context).load(shopItem.getImgUrl()).into(itemImage);
+        itemName.setText(item.getItemName());
+        itemPrice.setText(String.valueOf(item.getPrice()));
+        Glide.with(this.context).load(item.getImgUrl()).into(itemImage);
 
         //bat su kien onClick
         shopItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onclick.onItemClicked(shopItem);
+                onclick.onItemClicked(item);
             }
         });
 

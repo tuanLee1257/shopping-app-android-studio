@@ -1,7 +1,7 @@
 package com.example.shoppingapp.interfaces;
 
-import com.example.shoppingapp.models.ShopItem;
+import com.example.shoppingapp.models.Item;
 
 public interface Onclick {
-void  onItemClicked(ShopItem shopItem);
+void  onItemClicked(Item item);
 }

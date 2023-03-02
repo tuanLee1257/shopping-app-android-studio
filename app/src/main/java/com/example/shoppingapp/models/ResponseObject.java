@@ -1,14 +1,13 @@
 package com.example.shoppingapp.models;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ResponseObject {
     private String status;
     private String messages;
-    private List<ShopItem> data;
+    private List<Item> data;
 
-    public ResponseObject(String status, String messages, List<ShopItem> data) {
+    public ResponseObject(String status, String messages, List<Item> data) {
         this.status = status;
         this.messages = messages;
         this.data = data;
@@ -30,11 +29,11 @@ public class ResponseObject {
         this.messages = messages;
     }
 
-    public List<ShopItem> getData() {
+    public List<Item> getData() {
         return data;
     }
 
-    public void setData(List<ShopItem> data) {
+    public void setData(List<Item> data) {
         this.data = data;
     }
 

@@ -5,13 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.interfaces.CartItemInterface;
-import com.example.shoppingapp.models.ShopItem;
-import com.example.shoppingapp.states.CartState;
+import com.example.shoppingapp.models.Item;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -19,30 +17,30 @@ import java.util.List;
 
 public class CartItemsAdapter extends BaseAdapter {
     private Context context;
-    private List<ShopItem> shopItems;
+    private List<Item> items;
     private CartItemInterface listenner;
 
-    public CartItemsAdapter(Context context, List<ShopItem> shopItems,CartItemInterface listenner) {
+    public CartItemsAdapter(Context context, List<Item> items, CartItemInterface listenner) {
         this.context = context;
-        this.shopItems = shopItems;
+        this.items = items;
         this.listenner = listenner;
     }
 
-    public void refresh(List<ShopItem> shopItems){
-        this.shopItems = shopItems;
+    public void refresh(List<Item> items){
+        this.items = items;
         notifyDataSetChanged();
     }
     @Override
     public int getCount() {
-        if (shopItems == null) {
+        if (items == null) {
             return 0;
         }
-        return shopItems.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return shopItems.get(position);
+        return items.get(position);
     }
 
     @Override
@@ -58,7 +56,7 @@ public class CartItemsAdapter extends BaseAdapter {
         }
         else cartItemsView = convertView;
 
-        ShopItem shopItem = shopItems.get(position);
+        Item item = items.get(position);
         //anh xa
         ImageView cartItemImage = cartItemsView.findViewById(R.id.cartItemImage);
         MaterialTextView cartItemName = cartItemsView.findViewById(R.id.cartItemName);
@@ -67,10 +65,10 @@ public class CartItemsAdapter extends BaseAdapter {
         MaterialButton cartDeleteBtn = cartItemsView.findViewById(R.id.deleteBtn_cart);
 
         //gan du lieu
-        Glide.with(this.context).load(shopItem.getImgUrl()).into(cartItemImage);
-        cartItemName.setText(shopItem.getItemName());
+        Glide.with(this.context).load(item.getImgUrl()).into(cartItemImage);
+        cartItemName.setText(item.getItemName());
         cartItemSize.setText("L");
-        cartItemPrice.setText(String.valueOf(shopItem.getPrice()));
+        cartItemPrice.setText(String.valueOf(item.getPrice()));
 
         cartDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
