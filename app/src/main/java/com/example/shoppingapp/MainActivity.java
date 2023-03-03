@@ -4,12 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.example.shoppingapp.Activities.LoginActivity;
 import com.example.shoppingapp.Fragments.CartFragment;
 import com.example.shoppingapp.Fragments.HomeFragment;
 import com.example.shoppingapp.Fragments.SavedFragment;
 import com.example.shoppingapp.Fragments.SettingsFragment;
+import com.example.shoppingapp.services.ApiService;
+import com.example.shoppingapp.services.ApiServiceGenerator;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,12 +25,23 @@ public class MainActivity extends AppCompatActivity {
     Fragment savedFragment = new SavedFragment();
     Fragment cartFragment = new CartFragment();
     Fragment settingsFragment = new SettingsFragment();
+    SharedPreferences sharedRef;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedRef = getSharedPreferences("userRef", Context.MODE_PRIVATE);
+        String token = sharedRef.getString("token","null");
+        Log.e("TAG", "onCreatetoken: "+token );
+
+        if (token == "null"){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
         bottomNavigationView = findViewById(R.id.bottomNavView);
         loadFragment(homeFragment);
         bottomNavigationView.setOnItemSelectedListener(item ->

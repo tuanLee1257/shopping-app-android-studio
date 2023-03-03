@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingHorizontal="30dp"
-    tools:context=".Activities.LoginActivity">
+    tools:context=".Activities.SignUpActivity"
+    android:orientation="vertical">
 
     <TextView
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="E-Commerce-App"
+        android:text="Create an account"
         android:textColor="@color/black"
         android:textFontWeight="1000"
         android:textSize="36sp" />
@@ -20,15 +20,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in with your username and password"
+        android:text="Let's create your account"
         android:textColor="@color/black" />
 
     <LinearLayout
+        android:layout_weight="1"
+        android:gravity="center_vertical"
         android:id="@+id/loginForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -70,13 +70,31 @@
             android:hint="Enter your password"
             android:inputType="textPassword" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fullname"
+            android:textColor="@color/black"
+            android:textFontWeight="900"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/fullname"
+            style="@style/InputForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/input_form"
+            android:backgroundTint="@color/background"
+            android:hint="Enter your fullname" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signin_btn"
+            android:id="@+id/signup"
             style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign in"
+            android:text="Sign up"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:backgroundTint="@color/black" />
@@ -110,32 +128,32 @@
         </LinearLayout>
 
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:stateListAnimator="@null"
-            android:text="Sign in with Google"
-            android:textColor="@color/black"
-            app:backgroundTint="@color/white"
-            app:icon="@drawable/googleicon"
-            app:iconGravity="textStart"
-            app:strokeColor="@color/background"
-            app:strokeWidth="2dp" />
+            <com.google.android.material.button.MaterialButton
+                style="@style/Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:stateListAnimator="@null"
+                android:text="Sign up with Google"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/white"
+                app:icon="@drawable/googleicon"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/background"
+                app:strokeWidth="2dp" />
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/facebook"
-            android:gravity="center"
-            android:text="Sign in with Facebook"
-            android:textColor="@color/white"
-            app:icon="@drawable/facebook"
-            app:iconGravity="textStart" />
+            <com.google.android.material.button.MaterialButton
+                style="@style/Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/facebook"
+                android:gravity="center"
+                android:text="Sign up with Facebook"
+                android:textColor="@color/white"
+                app:icon="@drawable/facebook"
+                app:iconGravity="textStart" />
     </LinearLayout>
 
 
@@ -151,11 +169,10 @@
             android:text="Already a member ?  " />
 
         <TextView
-            android:id="@+id/signup_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Sign up"
+            android:text="Sign in"
             android:textColor="@color/black"
             android:textFontWeight="700" />
 

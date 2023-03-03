@@ -1,6 +1,8 @@
 package com.example.shoppingapp.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import com.example.shoppingapp.interfaces.Onclick;
 import com.example.shoppingapp.models.ResponseObject;
 import com.example.shoppingapp.models.Item;
 import com.example.shoppingapp.services.ApiService;
+import com.example.shoppingapp.services.ApiServiceGenerator;
 
 import java.util.ArrayList;
 
@@ -34,11 +37,19 @@ public class HomeFragment extends Fragment {
     ShopItemsAdapter shopItemsAdapter;
     GridView shopItemListView;
     SearchView searchView;
+    ApiService apiService;
+    SharedPreferences sharedRef;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e("TAG", "onViewCreated: " );
+
+
+        sharedRef = getActivity().getSharedPreferences("userRef", Context.MODE_PRIVATE);
+        String token = sharedRef.getString("token","");
+        items.clear();
+        apiService = ApiServiceGenerator.getClient(sharedRef.getString("token","")).create(ApiService.class);
+        initDumpData();
 
         shopItemsAdapter = new ShopItemsAdapter(items, this.getContext(), new Onclick() {
             @Override
@@ -60,10 +71,10 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText==  null){
+                if (newText==  null ||  newText == ""){
                     return false;
                 }
-                ApiService.apiService.searchItems(newText).enqueue(new Callback<ResponseObject>() {
+                apiService.searchItems(newText).enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                         items.clear();
@@ -84,7 +95,7 @@ public class HomeFragment extends Fragment {
 
     }
     void initDumpData(){
-        ApiService.apiService.getAllItems().enqueue(new Callback<ResponseObject>() {
+        apiService.getAllItems().enqueue(new Callback<ResponseObject>() {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 response.body().getData().forEach(shopItem -> {
@@ -108,9 +119,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        items.clear();
-        initDumpData();
-        Log.e("TAG", "onCreate: " );
     }
 
     @Override
@@ -120,5 +128,11 @@ public class HomeFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home,null);
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

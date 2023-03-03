@@ -21,6 +21,7 @@ import com.example.shoppingapp.models.CartItemDetail;
 import com.example.shoppingapp.models.Item;
 import com.example.shoppingapp.models.ResponseObject;
 import com.example.shoppingapp.services.ApiService;
+import com.example.shoppingapp.services.ApiServiceGenerator;
 import com.example.shoppingapp.states.CartState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -37,12 +38,14 @@ public class CartFragment extends Fragment {
     private CartItemsAdapter cartItemsAdapter;
     private CartState state;
     double subTotalPrice = 0, vatPrice = 0, feePrice = 0, totalPrice = 0;
+    ApiService apiService;
 
 
     @SuppressLint("DefaultLocale")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        apiService = ApiServiceGenerator.getClient("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjc3ODI4MDU5LCJleHAiOjE2Nzg0MzI4NTl9.AhmEUhUbGQtSlxgCnoAnAwc1GPunmA01io6oOzJgui8").create(ApiService.class);
 
 //        initDumpData();
         state = (CartState) getActivity().getApplicationContext();
@@ -91,7 +94,7 @@ public class CartFragment extends Fragment {
                         cartItemDetails.add(new CartItemDetail(item,2));
                     });
                     Log.e("TAG", "onClick: "+cartItemDetails);
-                    ApiService.apiService.insertCart(cartItemDetails,"john").enqueue(new Callback<String>() {
+                    apiService.insertCart(cartItemDetails,"john").enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             Log.e("TAG", "onResponse: "+response.body() );
