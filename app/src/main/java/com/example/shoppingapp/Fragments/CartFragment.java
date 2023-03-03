@@ -1,6 +1,7 @@
 package com.example.shoppingapp.Fragments;
 
 import android.annotation.SuppressLint;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CartFragment extends Fragment {
-    private List<Item> items = new ArrayList<>();
+    private List<CartItemDetail> items = new ArrayList<>();
     private CartItemsAdapter cartItemsAdapter;
     private CartState state;
     double subTotalPrice = 0, vatPrice = 0, feePrice = 0, totalPrice = 0;
@@ -66,84 +67,88 @@ public class CartFragment extends Fragment {
             @Override
             public void onDelete(int position) {
                 state.remove(position);
-                subTotalPrice = price(items);
-                vatPrice = (subTotalPrice * 0.2);
-                feePrice = 2.2;
-                totalPrice = subTotalPrice + vatPrice + feePrice;
-
-                subTotal.setText(String.format("%.2f", subTotalPrice));
-                vat.setText(String.format("%.2f", vatPrice));
-                fee.setText(String.valueOf(feePrice));
-                total.setText(String.format("%.2f", totalPrice));
                 cartItemsAdapter.notifyDataSetChanged();
+//                subTotalPrice = price(items);
+//                vatPrice = (subTotalPrice * 0.2);
+//                feePrice = 2.2;
+//                totalPrice = subTotalPrice + vatPrice + feePrice;
+//
+//                subTotal.setText(String.format("%.2f", subTotalPrice));
+//                vat.setText(String.format("%.2f", vatPrice));
+//                fee.setText(String.valueOf(feePrice));
+//                total.setText(String.format("%.2f", totalPrice));
+//                cartItemsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void remove() {
 
             }
+
+            @Override
+            public void inscrease(int position) {
+                state.inscrease(position);
+                cartItemsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void descrease(int position) {
+                state.descrease(position);
+                cartItemsAdapter.notifyDataSetChanged();
+
+            }
         });
         cartItemListView.setAdapter(cartItemsAdapter);
+        cartItemsAdapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                subTotalPrice = price(items);
+                vatPrice = subTotalPrice*0.1;
+                feePrice = subTotalPrice*0.01;
+                totalPrice = subTotalPrice + vatPrice + feePrice;
+
+                subTotal.setText(String.format("%.2f", subTotalPrice));
+                vat.setText(String.format("%.2f", vatPrice));
+                fee.setText(String.valueOf(feePrice));
+                total.setText(String.format("%.2f", totalPrice));
+
+            }
+        });
 
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (items != null){
-                    List<CartItemDetail> cartItemDetails = new ArrayList<>();
-                    items.forEach(item -> {
-                        cartItemDetails.add(new CartItemDetail(item,2));
-                    });
-                    Log.e("TAG", "onClick: "+cartItemDetails);
-                    apiService.insertCart(cartItemDetails,"john").enqueue(new Callback<String>() {
+                if (items != null) {
+                    apiService.insertCart(items, "john").enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
-                            Log.e("TAG", "onResponse: "+response.body() );
+                            Log.e("TAG", "onResponse: " + response.body());
                             Toast.makeText(state, "Insert cart successfully", Toast.LENGTH_SHORT).show();
                             items.clear();
                             cartItemsAdapter.notifyDataSetChanged();
                             subTotalPrice = 0;
                             vatPrice = 0;
-                            totalPrice = subTotalPrice + vatPrice + feePrice;
-
-                            subTotal.setText(String.format("%.2f", subTotalPrice));
-                            vat.setText(String.format("%.2f", vatPrice));
-                            fee.setText(String.valueOf(feePrice));
-                            total.setText(String.format("%.2f", totalPrice));
-                            cartItemsAdapter.notifyDataSetChanged();
+                            feePrice = 0;
+                            totalPrice = 0;
                         }
 
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
-                            Log.e("TAG", "onFail: "+t.getMessage() );
+                            Log.e("TAG", "onFail: " + t.getMessage());
                         }
                     });
                 }
             }
         });
-
-
-        if (items != null) {
-            //gan du lieu
-            subTotalPrice = price(items);
-            vatPrice = (subTotalPrice * 0.2);
-            feePrice = 2.2;
-            totalPrice = subTotalPrice + vatPrice + feePrice;
-        }
-
-        subTotal.setText(String.format("%.2f", subTotalPrice));
-        vat.setText(String.format("%.2f", vatPrice));
-        fee.setText(String.valueOf(feePrice));
-        total.setText(String.format("%.2f", totalPrice));
-
     }
 
 
-    double price(List<Item> items) {
+    double price(List<CartItemDetail> items) {
         final double[] price = {0};
-        items.forEach(shopItem -> {
-            price[0] += shopItem.getPrice();
+        items.forEach(item -> {
+            price[0] += item.getItem().getPrice() * item.getQuantity();
         });
-
         return price[0];
     }
 
