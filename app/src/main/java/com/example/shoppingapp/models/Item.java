@@ -15,14 +15,13 @@ public class Item implements Serializable {
 
     private Double price;
 
-    private Object likedBy;
-
     public Item(String itemName, String description, String imgUrl, Double price) {
         this.itemName = itemName;
         this.description = description;
         this.imgUrl = imgUrl;
         this.price = price;
     }
+
 
     public Integer getId() {
         return id;
@@ -64,14 +63,6 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public Object getLikedBy() {
-        return likedBy;
-    }
-
-    public void setLikedBy(Object likedBy) {
-        this.likedBy = likedBy;
-    }
-
     @Override
     public String toString() {
         return "Item{" +
@@ -80,7 +71,6 @@ public class Item implements Serializable {
                 ", description='" + description + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", price=" + price +
-                ", likedBy=" + likedBy +
                 '}';
     }
 }

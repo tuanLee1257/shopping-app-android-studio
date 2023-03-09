@@ -17,10 +17,8 @@ import android.widget.Toast;
 
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.CartItemsAdapter;
-import com.example.shoppingapp.interfaces.CartItemInterface;
+import com.example.shoppingapp.interfaces.ItemInterface;
 import com.example.shoppingapp.models.CartItemDetail;
-import com.example.shoppingapp.models.Item;
-import com.example.shoppingapp.models.ResponseObject;
 import com.example.shoppingapp.services.ApiService;
 import com.example.shoppingapp.services.ApiServiceGenerator;
 import com.example.shoppingapp.states.CartState;
@@ -63,7 +61,7 @@ public class CartFragment extends Fragment {
 
 
         //adapter
-        cartItemsAdapter = new CartItemsAdapter(getContext(), items, new CartItemInterface() {
+        cartItemsAdapter = new CartItemsAdapter(getContext(), items, new ItemInterface() {
             @Override
             public void onDelete(int position) {
                 state.remove(position);
@@ -99,6 +97,7 @@ public class CartFragment extends Fragment {
             }
         });
         cartItemListView.setAdapter(cartItemsAdapter);
+
         cartItemsAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {

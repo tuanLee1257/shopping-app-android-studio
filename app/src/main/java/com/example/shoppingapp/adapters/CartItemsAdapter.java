@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.shoppingapp.R;
-import com.example.shoppingapp.interfaces.CartItemInterface;
+import com.example.shoppingapp.interfaces.ItemInterface;
 import com.example.shoppingapp.models.CartItemDetail;
 import com.example.shoppingapp.models.Item;
 import com.google.android.material.button.MaterialButton;
@@ -19,9 +19,9 @@ import java.util.List;
 public class CartItemsAdapter extends BaseAdapter {
     private Context context;
     private List<CartItemDetail> items;
-    private CartItemInterface listenner;
+    private ItemInterface listenner;
 
-    public CartItemsAdapter(Context context, List<CartItemDetail> items, CartItemInterface listenner) {
+    public CartItemsAdapter(Context context, List<CartItemDetail> items, ItemInterface listenner) {
         this.context = context;
         this.items = items;
         this.listenner = listenner;

@@ -20,9 +20,10 @@ import android.widget.Toast;
 import com.example.shoppingapp.Activities.ItemDetailsActivity;
 import com.example.shoppingapp.R;
 import com.example.shoppingapp.adapters.ShopItemsAdapter;
-import com.example.shoppingapp.interfaces.Onclick;
-import com.example.shoppingapp.models.ResponseObject;
+import com.example.shoppingapp.interfaces.ItemAdapterInterface;
+import com.example.shoppingapp.models.ResponseItem;
 import com.example.shoppingapp.models.Item;
+import com.example.shoppingapp.models.ResponseUser;
 import com.example.shoppingapp.services.ApiService;
 import com.example.shoppingapp.services.ApiServiceGenerator;
 
@@ -46,21 +47,30 @@ public class HomeFragment extends Fragment {
 
 
         sharedRef = getActivity().getSharedPreferences("userRef", Context.MODE_PRIVATE);
-        String token = sharedRef.getString("token","");
-        items.clear();
-        apiService = ApiServiceGenerator.getClient(sharedRef.getString("token","")).create(ApiService.class);
-        initDumpData();
+        String username = sharedRef.getString("username","");
+        apiService = ApiServiceGenerator.getClient(sharedRef.getString("token", "")).create(ApiService.class);
 
-        shopItemsAdapter = new ShopItemsAdapter(items, this.getContext(), new Onclick() {
+        apiService.getAllItems().enqueue(new Callback<ResponseItem>() {
             @Override
-            public void onItemClicked(Item item) {
-                Intent intent = new Intent(getContext(),ItemDetailsActivity.class);
-                intent.putExtra("ShopItem", item);
-                startActivity(intent);
+            public void onResponse(Call<ResponseItem> call, Response<ResponseItem> response) {
+                response.body().getData().forEach(shopItem -> {
+                    items.add(shopItem);
+                });
+                if (response.body() != null) {
+                    shopItemsAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseItem> call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.getMessage());
             }
         });
+
+        shopItemsAdapter = new ShopItemsAdapter(items, this.getContext(),apiService , sharedRef);
         shopItemListView = (GridView) getActivity().findViewById(R.id.shoppingItemGridView);
         shopItemListView.setAdapter(shopItemsAdapter);
+
         shopItemListView.setOnItemClickListener((parent, view1, position, id) -> Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show());
         searchView = getActivity().findViewById(R.id.searchItems);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -71,12 +81,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText==  null ||  newText == ""){
+                if (newText == null || newText == "") {
                     return false;
                 }
-                apiService.searchItems(newText).enqueue(new Callback<ResponseObject>() {
+                apiService.searchItems(newText).enqueue(new Callback<ResponseItem>() {
                     @Override
-                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    public void onResponse(Call<ResponseItem> call, Response<ResponseItem> response) {
                         items.clear();
                         response.body().getData().forEach(shopItem -> {
                             items.add(shopItem);
@@ -85,33 +95,14 @@ public class HomeFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseObject> call, Throwable t) {
-                        Log.e("TAG", "onFailure: "+t.getMessage() );
+                    public void onFailure(Call<ResponseItem> call, Throwable t) {
+                        Log.e("TAG", "onFailure: " + t.getMessage());
                     }
                 });
                 return true;
             }
         });
 
-    }
-    void initDumpData(){
-        apiService.getAllItems().enqueue(new Callback<ResponseObject>() {
-            @Override
-            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                response.body().getData().forEach(shopItem -> {
-                    items.add(shopItem);
-                });
-                if (response.body() != null) {
-                    shopItemsAdapter.notifyDataSetChanged();
-                    Log.e("TAG", "onResponse: "+ items.toString() );
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseObject> call, Throwable t) {
-                Log.e("TAG", "onFailure: "+t.getMessage() );
-            }
-        });
     }
 
 
@@ -125,7 +116,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home,null);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home, null);
 
         return root;
     }

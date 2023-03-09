@@ -1,26 +1,21 @@
 package com.example.shoppingapp.services;
 
-import android.content.SharedPreferences;
-
 import com.example.shoppingapp.models.CartItemDetail;
-import com.example.shoppingapp.models.ResponseObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.shoppingapp.models.Item;
+import com.example.shoppingapp.models.ResponseComments;
+import com.example.shoppingapp.models.ResponseItem;
+import com.example.shoppingapp.models.ResponseUser;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -35,15 +30,25 @@ public interface ApiService {
 //            .create(ApiService.class);
 
 
-    @GET("/shop")
-    Call<ResponseObject>getAllItems();
+    @GET("/item")
+    Call<ResponseItem>getAllItems();
 
-    @GET("/shop/search")
-    Call<ResponseObject>searchItems(@Query("name")String name);
+    @PUT("/item/like")
+    Call<ResponseUser> onSaveIconClicked(@Query("username") String username, @Body Item item);
 
-    @POST("/user/{username}/cart/insert")
-    Call<String> insertCart(@Body List<CartItemDetail> cartItemDetail, @Path("username")String username);
+    @GET("/item/search")
+    Call<ResponseItem>searchItems(@Query("name")String name);
 
     @POST("/auth/login")
     Call<String> login(@Body HashMap<String,String> user);
+
+    @POST("/cart/insert")
+    Call<String> insertCart(@Body List<CartItemDetail> cartItemDetail, @Query("username") String username);
+
+    @GET("/comment/getByItem")
+    Call<ResponseComments> getAllCommentByItem(@Query("id") Long id);
+
+    @POST("/comment")
+    Call<Object> postComment(@Query("username") String username,@Query("comment")String comment,@Body Item item);
+
 }
